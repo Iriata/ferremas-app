@@ -31,6 +31,10 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: () => import('./pages/admin/admin.module').then( m => m.AdminPageModule)
   },
+  {
+    path: 'p404',
+    loadChildren: () => import('./pages/p404/p404.module').then( m => m.P404PageModule)
+  },
 ];
 
 @NgModule({
