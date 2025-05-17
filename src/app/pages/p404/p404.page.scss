@@ -1,0 +1,42 @@
+body {
+  background-image: url('../../../assets/Images/Moon.avif');
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center 60%;
+}
+
+.error{
+    color: rgb(239, 197, 190);
+    font-size: 120px;
+}
+
+h2{
+    color: rgb(239, 197, 190);
+}
+
+h4{
+    color: rgb(239, 197, 190);
+}
+
+.contenido {
+    width: 400px; /* o el ancho que tengas */
+    margin: 0 auto;
+    text-align: center;justify-content: center;
+    align-items: center;
+    margin: 13%;
+}
+
+.contenedor {
+    margin: 0 auto;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Espacio entre los divs */
+    margin-left: -80px;
+}
+
+.allado{
+    margin-left: -150px;
+    margin-top: -120px;
+}
