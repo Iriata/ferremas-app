@@ -32,9 +32,13 @@ const routes: Routes = [
     loadChildren: () => import('./pages/admin/admin.module').then( m => m.AdminPageModule)
   },
   {
-    path: 'p404',
-    loadChildren: () => import('./pages/p404/p404.module').then( m => m.P404PageModule)
+    path: 'registrar',
+    loadChildren: () => import('./pages/registrar/registrar.module').then( m => m.RegistrarPageModule)
   },
+  {
+    path: '**',
+    loadChildren: () => import('./pages/p404/p404.module').then( m => m.P404PageModule)
+  }
 ];
 
 @NgModule({

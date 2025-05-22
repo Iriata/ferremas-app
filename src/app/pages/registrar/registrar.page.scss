@@ -1,0 +1,63 @@
+body {
+    background-image: url('../../../assets/Images/Tex2.avif');
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    min-height: 100vh;  /* Permite crecer más allá del viewport */
+}
+
+html, body {
+    overflow-y: auto;  /* Permite scroll vertical */
+}
+
+.Contenido {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 500px;
+  /* height: 500px; */  /* Eliminar esta línea */
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid white;
+  border-radius: 12px;
+  padding: 20px;
+  color: #111;
+  font-size: 18px;
+}
+
+
+.Arriba {
+    justify-content: center;
+    display: flex;
+    align-items: center; /* centra verticalmente */
+    gap: 10px;
+    margin-top: 40px;
+}
+
+label{
+    color: aliceblue;
+}
+
+button{
+     width: 100%;
+     padding: 10px;   // Opcional, para hacerlo más alto y cómodo
+    font-size: 1rem; // Igualar tamaño de texto si quieres
+    box-sizing: border-box; // para que padding no aumente el ancho real
+}
+
+.cosa{
+  color: #ffffff;
+  justify-content: center;
+  display: flex;
+  margin-top: 10px;
+}
+
+.aa{
+  color: rgb(251, 182, 136);
+}
