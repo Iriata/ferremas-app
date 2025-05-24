@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClientePage implements OnInit {
 
+  alertButtons = ['Action'];
+
   constructor() { }
 
   ngOnInit() {

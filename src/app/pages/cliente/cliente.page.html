@@ -24,10 +24,14 @@
               <a class="nav-link" href="/registrar">Crear cuenta</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/registrar">Carrito</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+              <ion-button class="Carro" fill="clear" id="present-alert">Carrito</ion-button>
+                <ion-alert
+                  trigger="present-alert"
+                  header="A Short Title Is Best"
+                  subHeader="A Sub Header Is Optional"
+                  message="A message should be a short, complete sentence."
+                  [buttons]="alertButtons"
+                ></ion-alert>
             </li>
           </ul>
           <form class="d-flex" role="search">
@@ -39,41 +43,15 @@
     </nav>
 
     <div class="Contenido">
-      <div class="card" style="width: 15rem;">
+      <div class="card" style="width: 12rem;">
         <img src="../../../assets/Images/Ferremas.png" class="card-img-top" alt="...">
         <div class="card-body">
           <h5 class="card-title">Card title</h5>
           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <span class="badge rounded-pill text-bg-secondary">$000</span>
         </div>
       </div>
 
-      <div class="card" style="width: 15rem;">
-        <img src="../../../assets/Images/Ferremas.png" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-
-      <div class="card" style="width: 15rem;">
-        <img src="../../../assets/Images/Ferremas.png" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-
-      <div class="card" style="width: 15rem;">
-        <img src="../../../assets/Images/Ferremas.png" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
     </div>
     
   </body>
