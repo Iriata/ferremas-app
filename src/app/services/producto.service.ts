@@ -12,12 +12,7 @@ export class ProductoService {
   constructor(public http: HttpClient){}
 
   getProductos(){
-    try {
-      return this.http.get(this.url)
-    } catch (error) {
-      console.log("Error :" + error)
-      return {error: "error de consumo"}
-    }
+    return this.http.get(this.url)
   }
 
   getProducto( Id_producto: string){}
