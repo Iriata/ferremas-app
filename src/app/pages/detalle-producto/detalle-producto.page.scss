@@ -1,0 +1,42 @@
+.detalle-container {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  max-width: 900px; 
+  margin: 10% auto
+}
+
+.detalle-imagen {
+  width: 40%; /* o el tamaño que quieras */
+  max-width: 300px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.detalle-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.detalle-info h2 {
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.detalle-info p {
+  flex-grow: 1;
+  margin-bottom: 1rem;
+}
+
+.botones {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.boton-volver {
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+}

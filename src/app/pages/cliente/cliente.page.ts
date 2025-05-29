@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductoService } from '../../services/producto.service';
+import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-cliente',
@@ -10,9 +13,14 @@ import { ProductoService } from '../../services/producto.service';
 export class ClientePage implements OnInit {
 
   productos: any[] = [];
+  busqueda: string = '';
   alertButtons = ['Action'];
 
-  constructor(private productoService: ProductoService) { }
+  constructor(
+    private productoService: ProductoService, 
+    private router: Router,
+    private alertController: AlertController) 
+    { }
 
   ngOnInit() {
     this.productoService.getProductos().subscribe({
@@ -24,6 +32,22 @@ export class ClientePage implements OnInit {
         console.error("Error al obtener productos", err);
       }
     });
+  }
 
-}
+  //async irADetalle(producto: any) {
+  //  const alert = await this.alertController.create({
+  //    header: producto.Nombre_producto,
+  //    message: `Descripción: ${producto.Descripcion_producto}\n\nPrecio: ${producto.Precio_producto}`,
+  //    buttons: ['Comprar','Agregar al carrito']
+  //  });
+
+  //  await alert.present();
+  //}
+
+  irADetalle(id: string) {
+  this.router.navigate(['/detalle-producto', id]);
+  }
+
+
+
 }

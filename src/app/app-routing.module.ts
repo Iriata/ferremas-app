@@ -36,9 +36,17 @@ const routes: Routes = [
     loadChildren: () => import('./pages/registrar/registrar.module').then( m => m.RegistrarPageModule)
   },
   {
+  path: 'detalle-producto/:id',
+  loadChildren: () => import('./pages/detalle-producto/detalle-producto.module').then( m => m.DetalleProductoPageModule)
+  },
+  {
+    path: 'forcompra',
+    loadChildren: () => import('./pages/forcompra/forcompra.module').then( m => m.ForcompraPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/p404/p404.module').then( m => m.P404PageModule)
-  }
+  },
 ];
 
 @NgModule({
