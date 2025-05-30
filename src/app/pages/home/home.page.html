@@ -20,21 +20,23 @@
 
       <div class="Contenido">
 
-        <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label">Email</label>
-          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Usuario@gimail.com">
-        </div>
+        <form (ngSubmit)="login()">
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input [(ngModel)]="email" name="email" type="email" class="form-control" id="email" placeholder="usuario@email.com" required>
+          </div>
 
-        <div class="mb-3">
-          <label for="inputPassword6" class="form-label">Contraseña</label>
-          <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
-        </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <input [(ngModel)]="password" name="password" type="password" class="form-control" id="password" required>
+          </div>
 
-        <p class="cosa">¿Olvidaste tu contraseña?<a class="aaa" href="/registro"> Cambiar</a></p>
+          <p class="cosa">¿Olvidaste tu contraseña?<a class="aaa" href="/registro"> Cambiar</a></p>
 
-        <button type="button" class="btn btn-outline-light">iniciar sesión</button>
+          <button type="submit" class="btn btn-outline-light">Iniciar sesión</button>
 
-        <p class="cosa">¿No tienes cuenta? <a class="aa" href="/registrar">Regístrate</a></p>
+          <p class="cosa">¿No tienes cuenta? <a class="aa" href="/registrar">Regístrate</a></p>
+        </form>
 
 
       </div>

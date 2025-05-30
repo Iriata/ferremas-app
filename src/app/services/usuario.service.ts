@@ -12,9 +12,10 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) { }
 
-  getUsuarios(){
-    return this.http.get(this.url)
+  getUsuarios(): Observable<any[]> {
+  return this.http.get<any[]>(this.url);
   }
+
 
   getUsuario(rut: string){}
 

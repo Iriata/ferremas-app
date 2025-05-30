@@ -14,7 +14,7 @@ export class RegistrarPage implements OnInit {
   Rut: '',
   Nombre_completo: '',
   Email: '',
-  Contrasena: '',
+  Contrasenia: '',
   Region: '',
   Comuna: '',
   Direccion: ''
