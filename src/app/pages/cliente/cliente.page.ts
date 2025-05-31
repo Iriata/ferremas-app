@@ -15,6 +15,9 @@ export class ClientePage implements OnInit {
   productos: any[] = [];
   busqueda: string = '';
   alertButtons = ['Action'];
+  modalCarritoAbierto = false;
+  carrito: any[] = [];
+  totalCarrito = 0;
 
   constructor(
     private productoService: ProductoService, 
@@ -38,6 +41,25 @@ export class ClientePage implements OnInit {
   this.router.navigate(['/detalle-producto', id]);
   }
 
+  mostrarCarrito() {
+  // Carga el carrito desde localStorage
+  this.carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
 
+  // Calcula total
+  this.totalCarrito = this.carrito.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
+
+  // Abre el modal
+  this.modalCarritoAbierto = true;
+}
+
+cerrarModal() {
+  this.modalCarritoAbierto = false;
+}
+
+vaciarCarrito() {
+  localStorage.removeItem('carrito');
+  this.carrito = [];
+  this.totalCarrito = 0;
+}
 
 }

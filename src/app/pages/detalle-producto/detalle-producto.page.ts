@@ -32,29 +32,25 @@ export class DetalleProductoPage implements OnInit {
 }
 
 agregarAlCarrito() {
-  const productoCarrito = {
-    id: this.producto.ID_producto,
-    nombre: this.producto.Nombre_producto,
-    precio: this.producto.Precio_producto,
-    imagen: this.producto.Ruta_imagen_producto,
-    cantidad: 1
-  };
+    const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
 
-  const carritoActual = JSON.parse(localStorage.getItem('carrito') || '[]');
-  const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
-  console.log(carrito);
-  const productoExistente = carritoActual.find((p: any) => p.id === productoCarrito.id);
+    const productoExistente = carrito.find((p: any) => p.id === this.producto.id,);
 
-   if (productoExistente) {
-    productoExistente.cantidad += 1;
-  } else {
-    carritoActual.push(productoCarrito);
+    if (productoExistente) {
+      productoExistente.cantidad += 1;
+    } else {
+      carrito.push({
+        id: this.producto.id,
+        nombre: this.producto.Nombre_producto,
+        precio: this.producto.Precio_producto,
+        imagen: this.producto.Ruta_imagen_producto,
+        cantidad: 1
+      });
+    }
+
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+    console.log('Producto agregado al carrito:', this.producto.Nombre_producto);
   }
 
-  localStorage.setItem('carrito', JSON.stringify(carritoActual));
-
-    // Opcional: Mensaje de confirmación
-    console.log('Producto agregado al carrito:', productoCarrito);
-  }
 
 }
