@@ -24,8 +24,9 @@ export class HomePage {
 
 
       if (usuarioValido) {
-        alert('Inicio de sesión exitoso');
-        this.router.navigate(['/cliente']); // o a donde quieras redirigir
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('userEmail', usuarioValido.Email); // opcional
+        this.router.navigate(['/cliente']);
       } else {
         alert('Email o contraseña incorrectos');
       }

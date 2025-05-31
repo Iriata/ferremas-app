@@ -34,16 +34,6 @@ export class ClientePage implements OnInit {
     });
   }
 
-  //async irADetalle(producto: any) {
-  //  const alert = await this.alertController.create({
-  //    header: producto.Nombre_producto,
-  //    message: `Descripción: ${producto.Descripcion_producto}\n\nPrecio: ${producto.Precio_producto}`,
-  //    buttons: ['Comprar','Agregar al carrito']
-  //  });
-
-  //  await alert.present();
-  //}
-
   irADetalle(id: string) {
   this.router.navigate(['/detalle-producto', id]);
   }
