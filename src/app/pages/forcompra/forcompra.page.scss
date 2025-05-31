@@ -4,20 +4,33 @@ body {
   background-position: center;
 }
 
-.Contenido {
-  justify-content: center;
+.Contenedor {
   display: flex;
   align-items: center;
+  justify-content: center;
+  gap: 40px; /* espacio entre la imagen y el contenido */
   margin: 20px auto;
-  margin-bottom: 20px;
-  width: 1100px;
+  max-width: 1200px;
+  margin-top: 10%;
+  margin-top: 8%;
+}
+
+.imagen-pago {
+  width: 300px; /* ajusta el tamaño según quieras */
+  border-radius: 10px;
+}
+
+.Contenido {
+  display: flex;
+  flex-direction: column; /* para que los selects vayan uno bajo otro */
+  gap: 20px; /* espacio entre los selects */
+  padding: 30px;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(10px);
   border: 2px solid white;
   border-radius: 12px;
-  padding: 20px;
   color: #111;
-  font-size: 18px;
-  flex-wrap: wrap;
+  font-size: 20px;
+  width: 400px; /* ajustable */
 }
