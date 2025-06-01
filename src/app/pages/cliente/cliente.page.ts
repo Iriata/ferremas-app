@@ -18,6 +18,7 @@ export class ClientePage implements OnInit {
   modalCarritoAbierto = false;
   carrito: any[] = [];
   totalCarrito = 0;
+  userName: string = '';
 
   constructor(
     private productoService: ProductoService, 
@@ -35,7 +36,13 @@ export class ClientePage implements OnInit {
         console.error("Error al obtener productos", err);
       }
     });
+
+    const storedName = localStorage.getItem('userName');
+    if (storedName) {
+      this.userName = storedName;
+    }
   }
+
 
   irADetalle(id: string) {
   this.router.navigate(['/detalle-producto', id]);
@@ -61,5 +68,13 @@ vaciarCarrito() {
   this.carrito = [];
   this.totalCarrito = 0;
 }
+
+cerrarSesion() {
+  localStorage.removeItem('isLoggedIn');
+  localStorage.removeItem('userEmail');
+  localStorage.removeItem('userName');
+  this.router.navigate(['/home']); // O la ruta que uses para el login
+}
+
 
 }

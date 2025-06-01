@@ -19,13 +19,17 @@ export class HomePage {
     login() {
     this.usuarioService.getUsuarios().subscribe((usuarios: any[]) => {
     const usuarioValido = usuarios.find(usuario =>
-    usuario.Email === this.email &&
-    usuario.Contrasenia === this.password);
+      usuario.Email.toLowerCase().trim() === this.email.toLowerCase().trim() &&
+      usuario.Contrasenia === this.password
+    );
+
 
 
       if (usuarioValido) {
         localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('userEmail', usuarioValido.Email); // opcional
+        localStorage.setItem('userEmail', usuarioValido.Email);
+        const primerNombre = usuarioValido.Nombre_completo.split(' ')[0];
+        localStorage.setItem('userName', primerNombre);
         this.router.navigate(['/cliente']);
       } else {
         alert('Email o contraseña incorrectos');
