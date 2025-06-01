@@ -22,38 +22,39 @@
               <a class="nav-link active" aria-current="page" href="/home">Cerrar sesión</a>
             </li>
           </ul>
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Buscar Orden" aria-label="Search"/>
-            <button class="btn btn-outline-success" type="submit">Buscar</button>
-          </form>
         </div>
       </div>
     </nav>
 
     <div class="Contenido">
+  <ul class="list-group">
+    <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let orden of ordenes; let i = index">
+      <!-- Lado izquierdo -->
+      <div class="d-flex flex-column">
+        <strong>{{ orden.nombreProducto }}</strong>
+        <span class="text-muted">Pedido por: {{ orden.usuario }}</span>
+      </div>
 
-      <ul class="list-group">
-        <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let orden of ordenes; let i = index">
-          <!-- Lado izquierdo -->
-          <div class="d-flex flex-column">
-            <strong>{{ orden.nombreProducto }}</strong>
-            <span class="text-muted">Pedido por: {{ orden.usuario }}</span>
-          </div>
+      <!-- Lado derecho -->
+      <div class="d-flex align-items-center gap-2">
+        <button type="button" class="btn btn-danger btn-sm"
+                [disabled]="orden.estado !== 'en espera'"
+                (click)="rechazarPedido(i)">
+          Rechazar
+        </button>
 
-          <!-- Lado derecho -->
-          <div class="d-flex align-items-center gap-2">
-            <button type="button" class="btn btn-danger btn-sm" (click)="rechazarPedido(i)">Rechazar</button>
-            <button type="button" class="btn btn-success btn-sm" [disabled]="orden.confirmado" (click)="prepararPedido(i)">
-              {{ orden.confirmado ? 'Preparado' : 'Preparar' }}
-            </button>
-            <small class="text-body-secondary">{{ orden.fecha | date:'shortDate' }}</small>
-          </div>
-        </li>
-      </ul>
+        <button type="button" class="btn btn-success btn-sm"
+                [disabled]="orden.estado !== 'en espera'"
+                (click)="prepararPedido(i)">
+          {{ orden.estado === 'aceptado' ? 'Preparado' : 'Preparar' }}
+        </button>
 
+        <small class="text-body-secondary">{{ orden.fecha | date:'shortDate' }}</small>
+      </div>
+    </li>
+  </ul>
+</div> <!-- <- este sí está bien, cierra el div de "Contenido" -->
 
-  
-    </div>
     
   </body>
 </ion-content>

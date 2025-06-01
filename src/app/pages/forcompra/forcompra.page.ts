@@ -11,10 +11,9 @@ import { ProductoService } from '../../services/producto.service';
 export class ForcompraPage implements OnInit {
 
   producto: any;
-  metodoPago: string = '1';  // valores iniciales según options
+  metodoPago: string = '1';  
   metodoEntrega: string = '1';
   fechaCompra: Date = new Date();
-  
 
   constructor(
     private router: Router,
@@ -23,7 +22,7 @@ export class ForcompraPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');  // solo aquí obtienes el id de la ruta
+    const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.productoService.getProducto2(id).subscribe(res => {
         this.producto = res;
@@ -31,33 +30,42 @@ export class ForcompraPage implements OnInit {
     }
   }
 
-  // Si no usas esta función, puedes borrarla
   comprarProducto() {
     if (!this.producto) return;
-    this.router.navigate(['/forcompra', this.producto.id]); // pasar id directo como parámetro
+    this.router.navigate(['/forcompra', this.producto.id]);
   }
 
   realizarOrden() {
-    if (!this.producto) return alert('No hay producto seleccionado');
+  if (!this.producto) return alert('No hay producto seleccionado');
 
-    const orden = {
-      productoId: this.producto.id,  // usa "id"
-      nombreProducto: this.producto.Nombre_producto,
-      precio: this.producto.Precio_producto,
-      usuario: localStorage.getItem('userName') || 'Invitado',
-      metodoPago: this.metodoPago,
-      metodoEntrega: this.metodoEntrega,
-      fecha: this.fechaCompra.toISOString(),
-      confirmado: false
-    };
+  // Determinar disponibilidad según método de entrega
+  let disponibilidad = 'en espera'; // Valor por defecto
 
-    console.log('Orden:', orden);
-
-    const ordenes = JSON.parse(localStorage.getItem('ordenes') || '[]');
-    ordenes.push(orden);
-    localStorage.setItem('ordenes', JSON.stringify(ordenes));
-
-    // Guardar orden en backend o localStorage
-    alert('Orden realizada correctamente');
+  if (this.metodoEntrega === '1') {
+    disponibilidad = 'en tienda';  // Retiro en tienda
+  } else if (this.metodoEntrega === '2') {
+    disponibilidad = 'en camino';  // Despacho a domicilio
   }
+
+  const orden = {
+    productoId: this.producto.id,
+    nombreProducto: this.producto.Nombre_producto,
+    precio: this.producto.Precio_producto,
+    usuario: localStorage.getItem('userName') || 'Invitado',
+    metodoPago: this.metodoPago,
+    metodoEntrega: this.metodoEntrega,
+    fecha: this.fechaCompra.toISOString(),
+    estado: 'en espera',
+    disponibilidad: disponibilidad
+  };
+
+  console.log('Orden:', orden);
+
+  const ordenes = JSON.parse(localStorage.getItem('ordenes') || '[]');
+  ordenes.push(orden);
+  localStorage.setItem('ordenes', JSON.stringify(ordenes));
+
+  alert('Orden realizada correctamente');
+}
+
 }

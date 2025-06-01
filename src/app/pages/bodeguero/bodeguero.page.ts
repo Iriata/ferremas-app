@@ -12,24 +12,26 @@ export class BodegueroPage implements OnInit {
 
   constructor() { }
 
-
-
   ngOnInit() {
-    this.cargarOrdenes()
+    this.cargarOrdenes();
   }
 
   cargarOrdenes() {
-  this.ordenes = JSON.parse(localStorage.getItem('ordenes') || '[]');
-}
+    this.ordenes = JSON.parse(localStorage.getItem('ordenes') || '[]');
+  }
 
   rechazarPedido(index: number) {
-  this.ordenes.splice(index, 1);
-  localStorage.setItem('ordenes', JSON.stringify(this.ordenes));
-}
+    this.ordenes[index].estado = 'rechazado';
+    this.ordenes[index].disponibilidad = 'no disponible';
+    this.guardarOrdenes();
+  }
 
-prepararPedido(index: number) {
-  this.ordenes[index].confirmado = true;
-  localStorage.setItem('ordenes', JSON.stringify(this.ordenes));
-}
+  prepararPedido(index: number) {
+    this.ordenes[index].estado = 'aceptado';
+    this.guardarOrdenes();
+  }
 
+  guardarOrdenes() {
+    localStorage.setItem('ordenes', JSON.stringify(this.ordenes));
+  }
 }

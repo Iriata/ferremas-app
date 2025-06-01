@@ -87,15 +87,21 @@
                       <ion-list>
                         <ion-item *ngFor="let orden of ordenes">
                           <ion-label>
-                            <h2>{{orden.cantidad || 1}} x {{orden.nombreProducto}}</h2>
-                            <p>Precio: ${{(orden.precio * (orden.cantidad || 1)).toFixed(2)}}</p>
-                            <p>Fecha: {{orden.fecha | date:'short'}}</p>
-                            <p>Método: Pago {{orden.metodoPago}}, Entrega {{orden.metodoEntrega}}</p>
+                            <h2>{{ orden.cantidad || 1 }} x {{ orden.nombreProducto }}</h2>
+                            <p>Precio: ${{ (orden.precio * (orden.cantidad || 1)).toFixed(2) }}</p>
+                            <p>Fecha: {{ orden.fecha | date: 'short' }}</p>
+                            <p>Método: Pago {{ orden.metodoPago }}, Entrega {{ orden.metodoEntrega }}</p>
+                            <p>Estado: <span [ngClass]="orden.estado">{{ orden.estado }}</span></p>
+                             
+                              <p>
+                                Disponibilidad del pedido:
+                                <span [ngClass]="orden.disponibilidad || 'en espera'">
+                                  {{ orden.disponibilidad || 'en espera' }}
+                                </span>
+                              </p>
                           </ion-label>
-                            <ion-note slot="end" color="{{ orden.confirmado ? 'success' : 'medium' }}">
-                              {{ orden.confirmado ? 'Aceptado' : 'En espera' }}
-                            </ion-note>
                         </ion-item>
+
                       </ion-list>
                       
                     </ion-content>
