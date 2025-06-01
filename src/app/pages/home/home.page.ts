@@ -18,25 +18,39 @@ export class HomePage {
 
     login() {
     this.usuarioService.getUsuarios().subscribe((usuarios: any[]) => {
-    const usuarioValido = usuarios.find(usuario =>
-      usuario.Email.toLowerCase().trim() === this.email.toLowerCase().trim() &&
-      usuario.Contrasenia === this.password
-    );
-
-
+      const usuarioValido = usuarios.find(usuario =>
+        usuario.Email.toLowerCase().trim() === this.email.toLowerCase().trim() &&
+        usuario.Contrasenia === this.password
+      );
 
       if (usuarioValido) {
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('userEmail', usuarioValido.Email);
         const primerNombre = usuarioValido.Nombre_completo.split(' ')[0];
         localStorage.setItem('userName', primerNombre);
-        this.router.navigate(['/cliente']);
+
+        const email = usuarioValido.Email.toLowerCase();
+
+        if (email.includes('admin@email.com')) {
+          this.router.navigate(['/admin']);
+        } else if (email.includes('bodeguero@email.com')) {
+          this.router.navigate(['/bodeguero']);
+        } else if (email.includes('vendedor@email.com')) {
+          this.router.navigate(['/vendedor']);
+        } else {
+          this.router.navigate(['/cliente']);
+        }
+
+
+
       } else {
         alert('Email o contraseña incorrectos');
       }
     });
-
   }
+
+
+
 }
 
 

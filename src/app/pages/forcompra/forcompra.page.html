@@ -12,14 +12,14 @@
   
   <div class="Contenido">
       <select [(ngModel)]="metodoPago" class="form-select">
-        <option value="1">Débito</option>
-        <option value="2">Crédito</option>
-        <option value="3">Transferencia</option>
+        <option value="Débito">Débito</option>
+        <option value="Crédito">Crédito</option>
+        <option value="Transferencia">Transferencia</option>
       </select>
 
       <select [(ngModel)]="metodoEntrega" class="form-select">
-        <option value="1">Retiro en tienda</option>
-        <option value="2">Despacho a domicilio</option>
+        <option value="Retiro en tienda">Retiro en tienda</option>
+        <option value="Despacho a domicilio">Despacho a domicilio</option>
       </select>
 
       <ion-button color="warning" (click)="realizarOrden()">Realizar orden</ion-button>

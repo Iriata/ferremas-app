@@ -33,20 +33,24 @@
     <div class="Contenido">
 
       <ul class="list-group">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
+        <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let orden of ordenes; let i = index">
           <!-- Lado izquierdo -->
-          <div class="d-flex align-items-center">
-            <input class="form-check-input me-2" type="checkbox" value="" id="firstCheckbox">
-            <label for="firstCheckbox" class="mb-0">Orden 001</label>
+          <div class="d-flex flex-column">
+            <strong>{{ orden.nombreProducto }}</strong>
+            <span class="text-muted">Pedido por: {{ orden.usuario }}</span>
           </div>
-          
+
           <!-- Lado derecho -->
           <div class="d-flex align-items-center gap-2">
-            <button type="button" class="btn btn-secondary">Revisar pedido</button>
-            <small class="text-body-secondary">Hace 3 días</small>
+            <button type="button" class="btn btn-danger btn-sm" (click)="rechazarPedido(i)">Rechazar</button>
+            <button type="button" class="btn btn-success btn-sm" [disabled]="orden.confirmado" (click)="prepararPedido(i)">
+              {{ orden.confirmado ? 'Preparado' : 'Preparar' }}
+            </button>
+            <small class="text-body-secondary">{{ orden.fecha | date:'shortDate' }}</small>
           </div>
         </li>
       </ul>
+
 
   
     </div>
