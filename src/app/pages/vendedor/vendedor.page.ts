@@ -8,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VendedorPage implements OnInit {
 
+  ordenes: any[] = [];
+
   constructor() { }
 
   ngOnInit() {
+    this.cargarOrdenes();
   }
 
+  cargarOrdenes() {
+    this.ordenes = JSON.parse(localStorage.getItem('ordenes') || '[]');
+  }
+
+  marcarEntregado(index: number) {
+    this.ordenes[index].disponibilidad = 'entregado';
+    localStorage.setItem('ordenes', JSON.stringify(this.ordenes));
+  }
 }
+
