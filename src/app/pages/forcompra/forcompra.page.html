@@ -11,16 +11,19 @@
   <img src="../../../assets/Images/Gato.avif" alt="Pago" class="imagen-pago">
   
   <div class="Contenido">
-      <select class="form-select" aria-label="Default select example">
+      <select [(ngModel)]="metodoPago" class="form-select">
         <option value="1">Débito</option>
         <option value="2">Crédito</option>
         <option value="3">Transferencia</option>
       </select>
-      <select class="form-select" aria-label="Default select example">
+
+      <select [(ngModel)]="metodoEntrega" class="form-select">
         <option value="1">Retiro en tienda</option>
         <option value="2">Despacho a domicilio</option>
       </select>
-      <ion-button color="warning">Realizar orden</ion-button>
+
+      <ion-button color="warning" (click)="realizarOrden()">Realizar orden</ion-button>
+
     </div>
 
   </div>

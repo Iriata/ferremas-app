@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { ForcompraPage } from './pages/forcompra/forcompra.page'; 
 
 const routes: Routes = [
   {
@@ -40,7 +41,8 @@ const routes: Routes = [
   loadChildren: () => import('./pages/detalle-producto/detalle-producto.module').then( m => m.DetalleProductoPageModule)
   },
   {
-    path: 'forcompra',
+    path: 'forcompra/:id',
+    component: ForcompraPage,
     loadChildren: () => import('./pages/forcompra/forcompra.module').then( m => m.ForcompraPageModule)
   },
   {

@@ -18,7 +18,7 @@
       <h4 class="text-primary">Precio: ${{ producto.Precio_producto }}</h4>
 
       <div class="botones">
-        <ion-button color="success" routerLink="/forcompra">Comprar</ion-button>
+        <ion-button color="success" [routerLink]="['/forcompra', producto.id]">Comprar</ion-button>
         <ion-button color="success" (click)="agregarAlCarrito()">Agregar al carrito</ion-button>
       </div>
 
