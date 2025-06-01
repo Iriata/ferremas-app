@@ -14,6 +14,7 @@ export class ForcompraPage implements OnInit {
   metodoPago: string = '1';  // valores iniciales según options
   metodoEntrega: string = '1';
   fechaCompra: Date = new Date();
+  
 
   constructor(
     private router: Router,
@@ -46,10 +47,15 @@ export class ForcompraPage implements OnInit {
       usuario: localStorage.getItem('userName') || 'Invitado',
       metodoPago: this.metodoPago,
       metodoEntrega: this.metodoEntrega,
-      fecha: this.fechaCompra.toISOString()
+      fecha: this.fechaCompra.toISOString(),
+      confirmado: false
     };
 
     console.log('Orden:', orden);
+
+    const ordenes = JSON.parse(localStorage.getItem('ordenes') || '[]');
+    ordenes.push(orden);
+    localStorage.setItem('ordenes', JSON.stringify(ordenes));
 
     // Guardar orden en backend o localStorage
     alert('Orden realizada correctamente');

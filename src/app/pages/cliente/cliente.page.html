@@ -69,17 +69,40 @@
 
             </li>
             <li class="nav-item">
-              <ion-button class="Carro" fill="clear" id="bolsa-alert-btn">
+              <ion-button class="Carro" fill="clear" (click)="abrirBolsa()">
                 <img src="../../../assets/Images/Bolsa.png" width="20">
               </ion-button>
-              <ion-alert
-                trigger="bolsa-alert-btn"
-                header="Bolsa"
-                subHeader="Tus pedidos"
-                message="Aquí va la bolsa de compras"
-                [buttons]="alertButtons"
-              ></ion-alert>
-            </li>
+              
+                <ion-modal [isOpen]="modalBolsaAbierta" (didDismiss)="cerrarBolsa()">
+                  <ng-template>
+                    <ion-header>
+                      <ion-toolbar>
+                        <ion-title>Bolsa de Compras</ion-title>
+                        <ion-buttons slot="end">
+                          <ion-button (click)="cerrarBolsa()">Cerrar</ion-button>
+                        </ion-buttons>
+                      </ion-toolbar>
+                    </ion-header>
+                    <ion-content class="ion-padding">
+                      <ion-list>
+                        <ion-item *ngFor="let orden of ordenes">
+                          <ion-label>
+                            <h2>{{orden.cantidad || 1}} x {{orden.nombreProducto}}</h2>
+                            <p>Precio: ${{(orden.precio * (orden.cantidad || 1)).toFixed(2)}}</p>
+                            <p>Fecha: {{orden.fecha | date:'short'}}</p>
+                            <p>Método: Pago {{orden.metodoPago}}, Entrega {{orden.metodoEntrega}}</p>
+                          </ion-label>
+                            <ion-note slot="end" color="{{ orden.confirmado ? 'success' : 'medium' }}">
+                              {{ orden.confirmado ? 'Aceptado' : 'En espera' }}
+                            </ion-note>
+                        </ion-item>
+                      </ion-list>
+                      
+                    </ion-content>
+                  </ng-template>
+                </ion-modal>
+              </li>
+
           <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Buscar productos" aria-label="Search"/>
             <button class="btn btn-outline-success" type="submit">Buscar</button>
