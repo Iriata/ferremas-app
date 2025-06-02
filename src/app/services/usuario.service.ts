@@ -23,9 +23,14 @@ export class UsuarioService {
     return this.http.post(this.url, Usuarios)
   }
 
-  updateUsuarioscompleto(Usuarios: any){}
+  updateUsuarioscompleto(usuario: any): Observable<any> {
+  return this.http.put<any>(`${this.url}/${usuario.id}`, usuario);
+}
 
-  updateUsuariosparcial(Usuarios: any){}
+  updateUsuariosparcial(usuario: any): Observable<any> {
+  return this.http.patch<any>(`${this.url}/${usuario.id}`, usuario);
+}
+
 
   deleteUsuarios(rut: string): Observable<any> {
   return this.http.delete<any>(`${this.url}/${rut}`);
