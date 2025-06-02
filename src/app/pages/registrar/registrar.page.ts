@@ -11,7 +11,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 export class RegistrarPage implements OnInit {
 
   usuario = {
-  Rut: '',
+  rut: '',
   Nombre_completo: '',
   Email: '',
   Contrasenia: '',

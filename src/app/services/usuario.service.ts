@@ -27,6 +27,8 @@ export class UsuarioService {
 
   updateUsuariosparcial(Usuarios: any){}
 
-  deleteUsuarios(rut: string){}
+  deleteUsuarios(rut: string): Observable<any> {
+  return this.http.delete<any>(`${this.url}/${rut}`);
+  }
 
 }

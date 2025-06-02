@@ -73,7 +73,7 @@ cerrarSesion() {
   localStorage.removeItem('isLoggedIn');
   localStorage.removeItem('userEmail');
   localStorage.removeItem('userName');
-  this.router.navigate(['/home']); // O la ruta que uses para el login
+  this.router.navigate(['/home']); 
 }
 
 modalBolsaAbierta = false;
@@ -81,10 +81,8 @@ ordenes: any[] = [];
 totalOrdenes = 0;
 
 abrirBolsa() {
-  // Opcional: quitar el foco de cualquier botón activo
   (document.activeElement as HTMLElement)?.blur();
 
-  // Espera un poco antes de abrir el modal
   setTimeout(() => {
     this.ordenes = JSON.parse(localStorage.getItem('ordenes') || '[]');
     this.totalOrdenes = this.ordenes.reduce((acc, o) => acc + o.precio * (o.cantidad || 1), 0);
