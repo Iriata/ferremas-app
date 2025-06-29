@@ -95,6 +95,12 @@ cerrarBolsa() {
   this.modalBolsaAbierta = false;
 }
 
+vaciarOrdenes() {
+  localStorage.removeItem('ordenes');
+  this.ordenes = [];
+  this.totalOrdenes = 0;
+}
+
 
 
 
