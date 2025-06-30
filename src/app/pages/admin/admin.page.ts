@@ -11,6 +11,10 @@ export class AdminPage implements OnInit {
 
   usuarios: any[] = [];
 
+  campoSeleccionado: string = 'Nombre_completo';
+  nuevoValor: string = '';
+  usuarioSeleccionado: any = null;
+
   constructor(private usuarioService: UsuarioService) { }
 
   ngOnInit() {
@@ -69,4 +73,110 @@ guardarCambios() {
     (window as any).bootstrap.Modal.getInstance(modal).hide();
   });
 }
+
+
+  modalActualizarAlgoAbierto = false;
+
+  abrirModalActualizarAlgo(usuario: any) {
+    this.usuarioEdit = { ...usuario };
+    this.modalActualizarAlgoAbierto = true;
+
+    // Por defecto: mostrar el nombre actual del usuario
+    this.campoSeleccionado = 'Nombre_completo';
+    this.nuevoValor = usuario.Nombre_completo;
+  }
+
+  cerrarModalActualizarAlgo() {
+    this.modalActualizarAlgoAbierto = false;
+    this.usuarioEdit = null;
+    this.campoSeleccionado = 'Nombre_completo';
+    this.nuevoValor = '';
+  }
+
+  aceptarActualizar() {
+    if (!this.usuarioEdit || !this.campoSeleccionado || !this.nuevoValor) {
+      return;
+    }
+
+    if (this.campoSeleccionado === 'Email') {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(this.nuevoValor)) {
+        alert('El formato del correo es inválido.');
+        return;
+      }
+
+      const emailDuplicado = this.usuarios.find(u => 
+        u.Email === this.nuevoValor && u.id !== this.usuarioEdit.id
+      );
+      if (emailDuplicado) {
+        alert(`El Email "${this.nuevoValor}" ya está en uso por otro usuario.`);
+        return;
+      }
+    }
+
+    const datosParciales: any = {
+      id: this.usuarioEdit.id
+    };
+
+    datosParciales[this.campoSeleccionado] = this.nuevoValor;
+
+    this.usuarioService.updateUsuariosparcial(datosParciales).subscribe(() => {
+      this.obtenerUsuarios();
+      this.cerrarModalActualizarAlgo();
+    });
+  }
+
+
+
+  cambiarCampo() {
+    this.nuevoValor = this.usuarioEdit ? this.usuarioEdit[this.campoSeleccionado] || '' : '';
+  }
+
+
+  modalActualizarTodoAbierto = false;
+
+  abrirModalActualizarTodo(usuario: any) {
+    this.usuarioEdit = { ...usuario };
+    this.modalActualizarTodoAbierto = true;
+  }
+
+  cerrarModalActualizarTodo() {
+    this.modalActualizarTodoAbierto = false;
+    this.usuarioEdit = null;
+  }
+
+  aceptarActualizarTodo() {
+    if (!this.usuarioEdit) return;
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.usuarioEdit.Email)) {
+      alert('Formato de email inválido');
+      return;
+    }
+
+    const rutRegex = /^[0-9]+[-|‐]{1}[0-9kK]{1}$/;
+    if (!rutRegex.test(this.usuarioEdit.rut)) {
+      alert('Formato de RUT inválido');
+      return;
+    }
+
+    const emailDuplicado = this.usuarios.some(u => u.Email === this.usuarioEdit.Email && u.id !== this.usuarioEdit.id);
+    if (emailDuplicado) {
+      alert('El email ya está en uso por otro usuario.');
+      return;
+    }
+
+    const rutDuplicado = this.usuarios.some(u => u.rut === this.usuarioEdit.rut && u.id !== this.usuarioEdit.id);
+    if (rutDuplicado) {
+      alert('El RUT ya está en uso por otro usuario.');
+      return;
+    }
+
+    this.usuarioService.updateUsuariosparcial(this.usuarioEdit).subscribe(() => {
+      this.obtenerUsuarios();
+      this.cerrarModalActualizarTodo();
+    });
+  }
+
+
 }
