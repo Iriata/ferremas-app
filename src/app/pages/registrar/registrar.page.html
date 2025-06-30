@@ -54,11 +54,12 @@
         </div>
 
         <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
+          <input type="checkbox" class="form-check-input" id="exampleCheck1" [(ngModel)]="terminosAceptados" name="terminosAceptados" required>
           <label class="form-check-label" for="exampleCheck1">Aceptar términos y condiciones</label>
         </div>
 
-        <button type="submit" class="btn btn-outline-light">Registrar</button>
+        <button type="submit" class="btn btn-outline-light" [disabled]="!terminosAceptados">Registrar</button>
+
       </form>
 
       <p class="cosa">¿Ya tienes cuenta? <a class="aa" href="/home">Regístrate</a></p>

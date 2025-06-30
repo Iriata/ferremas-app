@@ -10,6 +10,8 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class RegistrarPage implements OnInit {
 
+  terminosAceptados: boolean = false;
+
   usuario = {
   rut: '',
   Nombre_completo: '',
@@ -24,15 +26,31 @@ export class RegistrarPage implements OnInit {
   constructor(private usuarioService: UsuarioService) { }
 
   registrarUsuario() {
-  this.usuarioService.createUsuario(this.usuario).subscribe({
-    next: () => {
-      alert('Usuario registrado correctamente');
-    },
-    error: (err) => {
-      console.error('Error al registrar usuario:', err);
+  this.usuarioService.getUsuarios().subscribe((usuarios: any[]) => {
+    const rutExiste = usuarios.some(u => u.rut.toLowerCase() === this.usuario.rut.toLowerCase());
+    const emailExiste = usuarios.some(u => u.Email.toLowerCase() === this.usuario.Email.toLowerCase());
+
+    if (rutExiste) {
+          alert('El RUT ya está registrado.');
+          return;
+        }
+
+        if (emailExiste) {
+          alert('El email ya está registrado.');
+          return;
+        }
+
+        this.usuarioService.createUsuario(this.usuario).subscribe({
+          next: () => {
+            alert('Usuario registrado correctamente');
+          },
+          error: (err) => {
+            console.error('Error al registrar usuario:', err);
+          }
+        });
+      });
     }
-  });
-  }
+
 
   ngOnInit() {
     imports: [
