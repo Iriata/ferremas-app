@@ -25,31 +25,53 @@ export class RegistrarPage implements OnInit {
 
   constructor(private usuarioService: UsuarioService) { }
 
+  validarEmail(email: string): boolean {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  }
+
+  validarRut(rut: string): boolean {
+    const re = /^[0-9]+[-|‐]{1}[0-9kK]{1}$/;
+    return re.test(rut);
+  }
+
+
   registrarUsuario() {
-  this.usuarioService.getUsuarios().subscribe((usuarios: any[]) => {
-    const rutExiste = usuarios.some(u => u.rut.toLowerCase() === this.usuario.rut.toLowerCase());
-    const emailExiste = usuarios.some(u => u.Email.toLowerCase() === this.usuario.Email.toLowerCase());
-
-    if (rutExiste) {
-          alert('El RUT ya está registrado.');
-          return;
-        }
-
-        if (emailExiste) {
-          alert('El email ya está registrado.');
-          return;
-        }
-
-        this.usuarioService.createUsuario(this.usuario).subscribe({
-          next: () => {
-            alert('Usuario registrado correctamente');
-          },
-          error: (err) => {
-            console.error('Error al registrar usuario:', err);
-          }
-        });
-      });
+    if (!this.validarRut(this.usuario.rut)) {
+      alert('Formato de RUT inválido. Ejemplo válido: 12345678-9');
+      return;
     }
+
+    if (!this.validarEmail(this.usuario.Email)) {
+      alert('Formato de email inválido.');
+      return;
+    }
+
+    this.usuarioService.getUsuarios().subscribe((usuarios: any[]) => {
+      const rutExiste = usuarios.some(u => u.rut.toLowerCase() === this.usuario.rut.toLowerCase());
+      const emailExiste = usuarios.some(u => u.Email.toLowerCase() === this.usuario.Email.toLowerCase());
+
+      if (rutExiste) {
+        alert('El RUT ya está registrado.');
+        return;
+      }
+
+      if (emailExiste) {
+        alert('El email ya está registrado.');
+        return;
+      }
+
+      this.usuarioService.createUsuario(this.usuario).subscribe({
+        next: () => {
+          alert('Usuario registrado correctamente');
+        },
+        error: (err) => {
+          console.error('Error al registrar usuario:', err);
+        }
+      });
+    });
+  }
+
 
 
   ngOnInit() {
