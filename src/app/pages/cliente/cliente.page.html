@@ -31,6 +31,9 @@
             <li class="nav-item">
               <a class="nav-link" aria-current="page" (click)="cerrarSesion()">Cerrar sesión</a>
             </li>
+            <li>
+              <a class="nav-link" aria-current="page" (click)="abrirModalMoneda()">Moneda</a>
+            </li>
           </ul>
             <li class="nav-item">
               <ion-button class="Carro" fill="clear" (click)="mostrarCarrito()">
@@ -99,7 +102,6 @@
                                   {{ orden.disponibilidad || 'en espera' }}
                                 </span>
                               </p>
-                              <!-- <ion-button color="danger" (click)="vaciarOrdenes()">Vaciar</ion-button> -->
                           </ion-label>
                         </ion-item>
 
@@ -128,6 +130,36 @@
         </div>
       </div>
     </div>
+
+    <div class="modal" tabindex="-1"
+      [class.show]="modalMonedaAbierto"
+      [style.display]="modalMonedaAbierto ? 'block' : 'none'"
+      aria-modal="true" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title">Configuración de Moneda</h5>
+          <button type="button" class="btn-close" (click)="cerrarModalMoneda()"></button>
+        </div>
+
+        <div class="modal-body">
+          <label>Selecciona la moneda:</label>
+          <select class="form-select" [(ngModel)]="monedaSeleccionada">
+            <option value="CLP">Peso Chileno (CLP)</option>
+            <option value="USD">Dólar (USD)</option>
+            <option value="EUR">Euro (EUR)</option>
+          </select>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-primary" (click)="guardarMoneda()">Guardar</button>
+          <button class="btn btn-secondary" (click)="cerrarModalMoneda()">Cerrar</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
     
   </body>

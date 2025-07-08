@@ -101,6 +101,21 @@ vaciarOrdenes() {
   this.totalOrdenes = 0;
 }
 
+modalMonedaAbierto = false;
+monedaSeleccionada = 'CLP';
+
+abrirModalMoneda() {
+  this.modalMonedaAbierto = true;
+}
+
+cerrarModalMoneda() {
+  this.modalMonedaAbierto = false;
+}
+
+guardarMoneda() {
+  console.log('Moneda seleccionada:', this.monedaSeleccionada);
+  this.cerrarModalMoneda();
+}
 
 
 
