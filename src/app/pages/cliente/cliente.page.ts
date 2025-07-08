@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductoService } from '../../services/producto.service';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-
+import { MonedaService } from '../../services/moneda.service';
 
 @Component({
   selector: 'app-cliente',
@@ -19,11 +19,25 @@ export class ClientePage implements OnInit {
   carrito: any[] = [];
   totalCarrito = 0;
   userName: string = '';
+  
+  monedaSeleccionada = 'CLP';
+  tasaCambio = 1; 
+
+  modalMonedaAbierto: boolean = false;
+
+  abrirModalMoneda() {
+    this.modalMonedaAbierto = true;
+  }
+
+  cerrarModalMoneda() {
+    this.modalMonedaAbierto = false;
+  }
 
   constructor(
     private productoService: ProductoService, 
     private router: Router,
-    private alertController: AlertController) 
+    private alertController: AlertController,
+    private monedaService: MonedaService) 
     { }
 
   ngOnInit() {
@@ -101,22 +115,21 @@ vaciarOrdenes() {
   this.totalOrdenes = 0;
 }
 
-modalMonedaAbierto = false;
-monedaSeleccionada = 'CLP';
-
-abrirModalMoneda() {
-  this.modalMonedaAbierto = true;
-}
-
-cerrarModalMoneda() {
-  this.modalMonedaAbierto = false;
-}
-
 guardarMoneda() {
-  console.log('Moneda seleccionada:', this.monedaSeleccionada);
-  this.cerrarModalMoneda();
-}
-
-
-
+    this.monedaService.obtenerIndicadores().subscribe({
+      next: (data: any) => {
+        if (this.monedaSeleccionada === 'USD') {
+          this.tasaCambio = data.dolar.valor;
+        } else if (this.monedaSeleccionada === 'EUR') {
+          this.tasaCambio = data.euro.valor;
+        } else {
+          this.tasaCambio = 1;
+        }
+        this.cerrarModalMoneda();
+      },
+      error: (err) => {
+        console.error('Error al obtener indicadores', err);
+      }
+    });
+  }
 }
