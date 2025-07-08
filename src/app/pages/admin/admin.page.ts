@@ -22,10 +22,16 @@ export class AdminPage implements OnInit {
   }
 
   obtenerUsuarios() {
-    this.usuarioService.getUsuarios().subscribe((data) => {
-      this.usuarios = data;
+    const usuariosLocales = JSON.parse(localStorage.getItem('localUsers') || '[]');
+
+    this.usuarioService.getUsuarios().subscribe((usuariosServidor: any[]) => {
+      this.usuarios = [...usuariosServidor, ...usuariosLocales];
+    }, (error) => {
+      console.error('Error al obtener usuarios del servidor:', error);
+      this.usuarios = [...usuariosLocales];
     });
   }
+
 
   borrarUsuario(id: string) {
     this.usuarioService.deleteUsuarios(id).subscribe(() => {
