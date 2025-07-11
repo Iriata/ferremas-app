@@ -126,9 +126,14 @@
         <div class="card-body">
           <h5 class="card-title">{{ producto.Nombre_producto }}</h5>
           <p class="card-text">{{ producto.Descripcion_producto }}</p>
-          <span class="badge rounded-pill text-bg-secondary">${{ producto.Precio_producto / tasaCambio | number:'1.0-0' }}
-
-</span>
+          <span class="badge rounded-pill text-bg-secondary">
+            <ng-container *ngIf="monedaSeleccionada === 'CLP'; else conDecimales">
+              ${{ producto.Precio_producto / tasaCambio | number:'1.0-0' }}
+            </ng-container>
+            <ng-template #conDecimales>
+              ${{ producto.Precio_producto / tasaCambio | number:'1.2-2' }}
+            </ng-template>
+          </span>
         </div>
       </div>
     </div>

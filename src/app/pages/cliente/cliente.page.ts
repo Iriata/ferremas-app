@@ -63,13 +63,8 @@ export class ClientePage implements OnInit {
   }
 
   mostrarCarrito() {
-  // Carga el carrito desde localStorage
   this.carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
-
-  // Calcula total
   this.totalCarrito = this.carrito.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
-
-  // Abre el modal
   this.modalCarritoAbierto = true;
 }
 
@@ -116,20 +111,35 @@ vaciarOrdenes() {
 }
 
 guardarMoneda() {
-    this.monedaService.obtenerIndicadores().subscribe({
-      next: (data: any) => {
-        if (this.monedaSeleccionada === 'USD') {
-          this.tasaCambio = data.dolar.valor;
-        } else if (this.monedaSeleccionada === 'EUR') {
-          this.tasaCambio = data.euro.valor;
-        } else {
-          this.tasaCambio = 1;
-        }
-        this.cerrarModalMoneda();
-      },
-      error: (err) => {
-        console.error('Error al obtener indicadores', err);
+  this.monedaService.obtenerIndicadores().subscribe({
+    next: (data: any) => {
+      console.log('Datos recibidos:', data);
+      if (this.monedaSeleccionada === 'USD') {
+        this.tasaCambio = data.dolar?.valor || 1;
+      } else if (this.monedaSeleccionada === 'EUR') {
+        this.tasaCambio = data.euro?.valor || 1;
+      } else {
+        this.tasaCambio = 1;
       }
-    });
+
+      console.log('Tasa de cambio aplicada:', this.tasaCambio);
+      this.cerrarModalMoneda();
+    },
+    error: (err) => {
+      console.error('Error al obtener indicadores', err);
+    }
+  });
+}
+
+
+  formatearPrecio(precio: number): string {
+  const precioConvertido = precio / this.tasaCambio;
+  if (this.monedaSeleccionada === 'CLP') {
+    return precioConvertido.toLocaleString('es-CL', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  } else {
+    return precioConvertido.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
+}
+
+
 }
