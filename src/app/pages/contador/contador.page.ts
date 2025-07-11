@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-contador',
@@ -9,36 +8,21 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class ContadorPage implements OnInit {
 
-  usuarios: any[] = [];
+  ordenes: any[] = [];
 
-  constructor(private usuarioService: UsuarioService) { }
+  constructor() {}
 
   ngOnInit() {
-    this.obtenerUsuarios();
+    this.cargarOrdenes();
   }
 
-  obtenerUsuarios() {
-    const usuariosLocales = JSON.parse(localStorage.getItem('localUsers') || '[]');
-
-    this.usuarioService.getUsuarios().subscribe((usuariosServidor: any[]) => {
-      this.usuarios = [...usuariosServidor, ...usuariosLocales];
-    }, () => {
-      this.usuarios = [...usuariosLocales];
-    });
+  cargarOrdenes() {
+    this.ordenes = JSON.parse(localStorage.getItem('ordenes') || '[]');
   }
 
-  actualizarAlgo(usuario: any) {
-    console.log('Actualizar algo:', usuario);
-  }
-
-  actualizarTodo(usuario: any) {
-    console.log('Actualizar todo:', usuario);
-  }
-
-  borrarUsuario(id: string) {
-    this.usuarioService.deleteUsuarios(id).subscribe(() => {
-      this.obtenerUsuarios();
-    });
+  marcarEntregado(index: number) {
+    this.ordenes[index].disponibilidad = 'entregado';
+    localStorage.setItem('ordenes', JSON.stringify(this.ordenes));
   }
 
 }

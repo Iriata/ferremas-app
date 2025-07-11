@@ -33,23 +33,27 @@
     </nav>
 
     <div class="Contenido">
-
       <ul class="list-group">
-        <li *ngFor="let usuario of usuarios" class="list-group-item d-flex justify-content-between align-items-center">
-          <!-- Lado izquierdo -->
-          <div class="d-flex align-items-center">
-            <label class="mb-0">AAA</label>
-          </div>
+        <li class="list-group-item d-flex justify-content-between align-items-center"
+            *ngFor="let orden of ordenes; let i = index">
           
+          <!-- Lado izquierdo -->
+          <div class="d-flex flex-column">
+            <strong>{{ orden.nombreProducto }}</strong>
+            <span class="text-muted">Pedido por: {{ orden.usuario }}</span>
+          </div>
+
           <!-- Lado derecho -->
           <div class="d-flex align-items-center gap-2">
             <button type="button" class="btn btn-danger">Rechasar</button>
             <button type="button" class="btn btn-success">Descargar infome</button>
+            <small class="text-body-secondary">{{ orden.fecha | date:'shortDate' }}</small>
           </div>
+
         </li>
       </ul>
-
     </div>
+
 
   </body>
 </ion-content>
