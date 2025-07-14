@@ -20,9 +20,5 @@ export class ContadorPage implements OnInit {
     this.ordenes = JSON.parse(localStorage.getItem('ordenes') || '[]');
   }
 
-  marcarEntregado(index: number) {
-    this.ordenes[index].disponibilidad = 'entregado';
-    localStorage.setItem('ordenes', JSON.stringify(this.ordenes));
-  }
 
 }

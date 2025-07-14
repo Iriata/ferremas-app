@@ -89,6 +89,7 @@ export class HomePage implements OnInit {
     const primerNombre = usuario.Nombre_completo.split(' ')[0];
     localStorage.setItem('userName', primerNombre);
 
+    localStorage.setItem('usuario', JSON.stringify(usuario));
     const tipo = usuario.Tipo_usuario?.toLowerCase() || '';
 
     if (tipo === 'admin') {

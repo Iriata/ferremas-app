@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProductoService } from '../../services/producto.service';
-
+import { UsuarioService } from 'src/app/services/usuario.service';
+declare var paypal: any;
 @Component({
   selector: 'app-forcompra',
   templateUrl: './forcompra.page.html',
@@ -11,24 +12,39 @@ import { ProductoService } from '../../services/producto.service';
 export class ForcompraPage implements OnInit {
 
   producto: any;
-  metodoPago: string = '1';  
-  metodoEntrega: string = '1';
+  metodoPago: string = '';
+  metodoEntrega: string = '';
   fechaCompra: Date = new Date();
+  usuario: any;
+  usuarios: any[] = [];
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private productoService: ProductoService
+    private productoService: ProductoService,
+    private usuarioService: UsuarioService
   ) { }
 
-  ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.productoService.getProducto2(id).subscribe(res => {
-        this.producto = res;
-      });
-    }
+ngOnInit() {
+  const id = this.route.snapshot.paramMap.get('id');
+  if (id) {
+    this.productoService.getProducto2(id).subscribe(async res => {
+      this.producto = res;
+      try {
+        await this.loadPayPalScript();
+        this.renderPayPalButton();  
+      } catch (error) {
+        console.error(error);
+      }
+    });
   }
+
+  const usuarioGuardado = localStorage.getItem('usuario');
+  if (usuarioGuardado) {
+    this.usuario = JSON.parse(usuarioGuardado);
+  }
+}
+
 
   comprarProducto() {
     if (!this.producto) return;
@@ -38,13 +54,12 @@ export class ForcompraPage implements OnInit {
   realizarOrden() {
   if (!this.producto) return alert('No hay producto seleccionado');
 
-  // Determinar disponibilidad según método de entrega
-  let disponibilidad = 'en espera'; // Valor por defecto
+  let disponibilidad = 'en espera'; 
 
   if (this.metodoEntrega === '1') {
-    disponibilidad = 'en tienda';  // Retiro en tienda
+    disponibilidad = 'en tienda'; 
   } else if (this.metodoEntrega === '2') {
-    disponibilidad = 'en camino';  // Despacho a domicilio
+    disponibilidad = 'en camino'; 
   }
 
   const orden = {
@@ -67,5 +82,56 @@ export class ForcompraPage implements OnInit {
 
   alert('Orden realizada correctamente');
 }
+
+renderPayPalButton() {
+  if (!this.producto) return;
+
+  paypal.Buttons({
+    createOrder: (data: any, actions: any) => {
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            currency_code: 'USD', 
+            value: this.producto.Precio_producto.toString()
+          },
+          description: this.producto.Nombre_producto
+        }]
+      });
+    },
+    onApprove: (data: any, actions: any) => {
+      return actions.order.capture().then((details: any) => {
+        alert(`Pago realizado por ${details.payer.name.given_name}`);
+        this.realizarOrden();
+      });
+    },
+    onError: (err: any) => {
+      console.error('Error en el pago:', err);
+      alert('Hubo un problema al procesar el pago');
+    }
+  }).render('#paypal-button-container');
+}
+
+
+  loadPayPalScript(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if ((window as any).paypal) {
+      resolve();
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = 'https://www.paypal.com/sdk/js?client-id=AZlf2tykhAeaCXfASRhwpOz6gy_-SxsR81ZVJ3AtOFqHNk0xmGisONtJFzJY7HgkavgsNzGkWrU5LeS6&currency=USD';
+    script.onload = () => resolve();
+    script.onerror = () => reject('PayPal SDK no se pudo cargar');
+    document.body.appendChild(script);
+  });
+
+}
+
+convertirAPrecioUSD(precioCLP: number): number {
+  const valorDolar = 930; // 👈 cámbialo por el valor real que obtengas de la API
+  return +(precioCLP / valorDolar).toFixed(2); // máximo dos decimales
+}
+
 
 }
