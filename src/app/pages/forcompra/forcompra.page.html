@@ -19,13 +19,16 @@
 
         <div class="mb-3">
           <label class="form-label">Método de entrega</label>
-          <select [(ngModel)]="metodoEntrega" class="form-select">
+          <select [(ngModel)]="metodoEntrega" class="form-select" (change)="onMetodoEntregaChange()">
+            <option value="">Seleccione un método</option>
             <option value="Retiro en tienda">Retiro en tienda</option>
             <option value="Despacho a domicilio">Despacho a domicilio</option>
           </select>
         </div>
 
-        <div id="paypal-button-container" class="mb-3"></div>
+        <!-- Contenedor para PayPal -->
+        <div id="paypal-button-container" *ngIf="mostrarPaypal"></div>
+
 
         <div class="d-grid gap-2 mb-3">
           <ion-button expand="block" color="warning" (click)="realizarOrden()">

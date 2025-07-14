@@ -17,6 +17,7 @@ export class ForcompraPage implements OnInit {
   fechaCompra: Date = new Date();
   usuario: any;
   usuarios: any[] = [];
+  mostrarPaypal: boolean = false;
 
   constructor(
     private router: Router,
@@ -86,12 +87,19 @@ ngOnInit() {
 renderPayPalButton() {
   if (!this.producto) return;
 
+  const paypalContainer = document.getElementById('paypal-button-container');
+  if (paypalContainer) {
+    // Limpia el contenido anterior
+    paypalContainer.innerHTML = '';
+  }
+
+  // Renderiza los botones de nuevo
   paypal.Buttons({
     createOrder: (data: any, actions: any) => {
       return actions.order.create({
         purchase_units: [{
           amount: {
-            currency_code: 'USD', 
+            currency_code: 'USD',
             value: this.producto.Precio_producto.toString()
           },
           description: this.producto.Nombre_producto
@@ -100,6 +108,12 @@ renderPayPalButton() {
     },
     onApprove: (data: any, actions: any) => {
       return actions.order.capture().then((details: any) => {
+        const metodo = details.payer && details.payer.funding_source === 'BANK'
+          ? 'Transferencia'
+          : 'PayPal (Tarjeta)';
+        this.metodoPago = metodo;
+        localStorage.setItem('metodoPago', metodo);
+
         alert(`Pago realizado por ${details.payer.name.given_name}`);
         this.realizarOrden();
       });
@@ -110,6 +124,7 @@ renderPayPalButton() {
     }
   }).render('#paypal-button-container');
 }
+
 
 
   loadPayPalScript(): Promise<void> {
@@ -133,5 +148,15 @@ convertirAPrecioUSD(precioCLP: number): number {
   return +(precioCLP / valorDolar).toFixed(2); // máximo dos decimales
 }
 
+onMetodoEntregaChange() {
+  if (this.metodoEntrega) {
+    this.mostrarPaypal = true;
+    setTimeout(() => {
+      this.renderPayPalButton(); 
+    });
+  } else {
+    this.mostrarPaypal = false;
+  }
+}
 
 }
