@@ -61,7 +61,7 @@
                     </ion-list>
                     <hr />
                     <h3>Total: ${{totalCarrito.toFixed(2)}}</h3>
-                    <ion-button expand="block" routerLink="/forcompra">Comprar</ion-button>
+                    <ion-button expand="block" (click)="comprarDesdeCarrito()">Comprar</ion-button>
                     <ion-button expand="block" color="danger" (click)="vaciarCarrito()">
                       Vaciar carrito
                     </ion-button>
@@ -121,22 +121,23 @@
     </nav>
 
     <div class="Contenido">
-      <div *ngFor="let producto of productos" class="card" style="width: 12rem;" (click)="irADetalle(producto.id)">
-        <img [src]="producto.Ruta_imagen_producto" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">{{ producto.Nombre_producto }}</h5>
-          <p class="card-text">{{ producto.Descripcion_producto }}</p>
-          <span class="badge rounded-pill text-bg-secondary">
-            <ng-container *ngIf="monedaSeleccionada === 'CLP'; else conDecimales">
-              ${{ producto.Precio_producto / tasaCambio | number:'1.0-0' }}
-            </ng-container>
-            <ng-template #conDecimales>
-              ${{ producto.Precio_producto / tasaCambio | number:'1.2-2' }}
-            </ng-template>
-          </span>
-        </div>
-      </div>
+  <div *ngFor="let producto of productos" class="card" style="width: 12rem;" (click)="irADetalle(producto.id_producto)">
+    <img [src]="producto.ruta_imagen_producto" class="card-img-top" alt="Producto">
+    <div class="card-body">
+      <h5 class="card-title">{{ producto.nombre_producto }}</h5>
+      <p class="card-text">{{ producto.descripcion_producto }}</p>
+      <span class="badge rounded-pill text-bg-secondary">
+        <ng-container *ngIf="monedaSeleccionada === 'CLP'; else conDecimales">
+          ${{ producto.precio_producto / tasaCambio | number:'1.0-0' }}
+        </ng-container>
+        <ng-template #conDecimales>
+          ${{ producto.precio_producto / tasaCambio | number:'1.2-2' }}
+        </ng-template>
+      </span>
     </div>
+  </div>
+</div>
+
 
     <div class="modal" tabindex="-1"
       [class.show]="modalMonedaAbierto"
@@ -152,7 +153,7 @@
 
         <div class="modal-body">
           <label>Selecciona la moneda:</label>
-          <select class="form-select" [(ngModel)]="monedaSeleccionada">
+          <select class="form-select" [(ngModel)]="monedaSeleccionada" (change)="cambioMoneda()">
             <option value="CLP">Peso Chileno (CLP)</option>
             <option value="USD">Dólar (USD)</option>
             <option value="EUR">Euro (EUR)</option>

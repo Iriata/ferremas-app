@@ -17,7 +17,10 @@ export class VendedorPage implements OnInit {
   }
 
   cargarOrdenes() {
-    this.ordenes = JSON.parse(localStorage.getItem('ordenes') || '[]');
+    const todasLasOrdenes = JSON.parse(localStorage.getItem('ordenes') || '[]');
+    this.ordenes = todasLasOrdenes.filter((orden: any) => 
+      orden.estado !== 'rechazado' && orden.estado !== 'en espera'
+    );
   }
 
   marcarEntregado(index: number) {
