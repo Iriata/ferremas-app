@@ -66,22 +66,59 @@ export class HomePage implements OnInit {
   }
 
   login() {
-    this.usuarioService.getUsuarios().subscribe((usuariosServidor: any[]) => {
-      const usuariosLocales = JSON.parse(localStorage.getItem('localUsers') || '[]');
-      const todosLosUsuarios = [...usuariosServidor, ...usuariosLocales];
+    const localUsersStr = localStorage.getItem('localUsers');
+    let usuariosLocales: any[] = [];
 
-      const usuarioValido = todosLosUsuarios.find(usuario =>
-        usuario.Email.toLowerCase().trim() === this.email.toLowerCase().trim() &&
-        usuario.Contrasenia === this.password
-      );
+    try {
+      usuariosLocales = localUsersStr ? JSON.parse(localUsersStr) : [];
+    } catch (error) {
+      console.error('Error parsing localUsers:', error);
+      usuariosLocales = [];
+    }
 
-      if (usuarioValido) {
-        this.guardarLogin(usuarioValido);
-      } else {
+    const usuarioLocal = usuariosLocales.find((usuario: any) => {
+      if (!usuario || !usuario.Email || !usuario.Contrasenia) return false;
+
+      return usuario.Email.toLowerCase().trim() === this.email.toLowerCase().trim() &&
+             usuario.Contrasenia === this.password;
+    });
+    
+    if (usuarioLocal) {
+      this.guardarLogin(usuarioLocal);
+      return;
+    }
+    
+    // Login contra la API FastAPI
+    this.usuarioService.loginUsuario({ email: this.email, contrasenia: this.password }).subscribe({
+      next: () => {
+        // Buscar datos del usuario desde el endpoint GET /clientes para obtener el resto de los campos
+        this.usuarioService.getClientesApi().subscribe((usuariosServidor: any[]) => {
+          const usuarioApi = usuariosServidor.find(usuario =>
+            usuario.EMAIL.toLowerCase().trim() === this.email.toLowerCase().trim()
+          );
+          
+          if (usuarioApi) {
+            // Adaptamos el formato para ser compatible con la lógica de redirección
+            const usuarioAdaptado = {
+              Email: usuarioApi.EMAIL,
+              Nombre_completo: usuarioApi.NOMBRE_COMPLETO,
+              Contrasenia: '',  // No almacenamos contraseñas de la API
+              Tipo_usuario: '', // Cliente normal, sin tipo definido
+              ...usuarioApi
+            };
+            this.guardarLogin(usuarioAdaptado);
+          } else {
+            alert('Usuario autenticado, pero no se encontró en la lista de clientes');
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Error en login:', err);
         alert('Email o contraseña incorrectos');
       }
     });
   }
+
 
   guardarLogin(usuario: any) {
     localStorage.setItem('isLoggedIn', 'true');
