@@ -184,5 +184,16 @@ guardarCambios() {
     });
   }
 
+  modalCrearUsuarioAbierto: boolean = false;
+
+  abrirModalCrearUsuario() {
+    this.modalCrearUsuarioAbierto = true;
+  }
+
+  cerrarModalCrearUsuario() {
+    this.modalCrearUsuarioAbierto = false;
+  }
+
+
 
 }
